@@ -20,8 +20,6 @@ def hello():
 @app.route('/product/<int:id>', methods=['GET'])
 def get_product_by_id(id):
 
-	#data = [x for x in cities if x['id'] == id]
-	#comment
 	rows = session.execute("""SELECT * FROM makeup.products WHERE id=%(id)s""",{'id': id})
 	data = None
 
@@ -62,11 +60,6 @@ def get_product_by_id(id):
 @app.route('/items', methods= ['POST'])
 def create_product():
 
-	#product_url = basee_url.format(itemId = request.args['itemId'] , API_KEY= API_KEY)
-	#print(product_url)
-	#resp = request.post(product_url,data = {'itemId':request.args['itemId']}).json()
-	#print('after product call')
-
 	resp = requests.get(base_url)
 
 	if resp.ok:
@@ -103,8 +96,7 @@ def create_product():
 #delete product from database by itemid
 @app.route('/deleteproduct/<int:id>', methods = ['DELETE'])
 def delete_product_by_id(id):
-	# if not itemId:
-	# 	return jsonify({'Error': 'The id is needed to delete'}), 400
+	
 	print('before delete')
 	resp = session.execute("""DELETE FROM makeup.products WHERE id={}""".format(id))
 
@@ -116,8 +108,7 @@ def update_product(id):
 
 	print('inside put')
 
-	#if not request.args or not 'itemId' in request.args:
-	#	return jsonify({'Error': 'Record does not exist'}), 404
+	
 
 	print('inside update')
 	rows = session.execute("""UPDATE makeup.products SET name=%(name)s, brand=%(brand)s ,description=%(description)s,price=%(price)s WHERE id=%(id)s""", {'name': request.form['name'], 'id': id, 'brand': 'maybelline', 'description':request.form['description'], 'price': request.form['price']})
